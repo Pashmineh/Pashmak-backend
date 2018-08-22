@@ -1,5 +1,16 @@
 {
-    "name": "Debt",
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "relationships": [
+        {
+            "relationshipName": "user",
+            "otherEntityName": "user",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "login",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "debt"
+        }
+    ],
     "fields": [
         {
             "fieldName": "amount",
@@ -15,15 +26,12 @@
             "fieldValues": "TAKHIR,SHIRINI,JALASE"
         }
     ],
-    "relationships": [],
     "changelogDate": "20180822100356",
-    "entityTableName": "debt",
     "dto": "mapstruct",
-    "pagination": "infinite-scroll",
+    "searchEngine": false,
     "service": "serviceImpl",
+    "entityTableName": "debt",
     "jpaMetamodelFiltering": false,
-    "fluentMethods": true,
-    "clientRootFolder": "",
-    "applications": "*",
+    "pagination": "infinite-scroll",
     "angularJSSuffix": "mySuffix"
 }

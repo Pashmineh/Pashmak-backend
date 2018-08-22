@@ -1,5 +1,6 @@
 package com.kian.pashmak.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -38,16 +39,8 @@ public class Debt implements Serializable {
     private PaymentType reason;
 
     @ManyToOne
+    @JsonIgnoreProperties("")
     private User user;
-
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -95,6 +88,19 @@ public class Debt implements Serializable {
 
     public void setReason(PaymentType reason) {
         this.reason = reason;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public Debt user(User user) {
+        this.user = user;
+        return this;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

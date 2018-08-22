@@ -19,6 +19,10 @@ public class DebtDTO implements Serializable {
 
     private PaymentType reason;
 
+    private Long userId;
+
+    private String userLogin;
+
     public Long getId() {
         return id;
     }
@@ -51,6 +55,22 @@ public class DebtDTO implements Serializable {
         this.reason = reason;
     }
 
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public String getUserLogin() {
+        return userLogin;
+    }
+
+    public void setUserLogin(String userLogin) {
+        this.userLogin = userLogin;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -79,6 +99,8 @@ public class DebtDTO implements Serializable {
             ", amount=" + getAmount() +
             ", paymentTime='" + getPaymentTime() + "'" +
             ", reason='" + getReason() + "'" +
+            ", user=" + getUserId() +
+            ", user='" + getUserLogin() + "'" +
             "}";
     }
 }

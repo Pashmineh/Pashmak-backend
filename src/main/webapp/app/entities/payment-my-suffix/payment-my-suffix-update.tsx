@@ -8,6 +8,8 @@ import { ICrudGetAction, ICrudGetAllAction, ICrudPutAction } from 'react-jhipste
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
+import { IUser } from 'app/shared/model/user.model';
+import { getUsers } from 'app/modules/administration/user-management/user-management.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './payment-my-suffix.reducer';
 import { IPaymentMySuffix } from 'app/shared/model/payment-my-suffix.model';
 // tslint:disable-next-line:no-unused-variable
@@ -18,12 +20,14 @@ export interface IPaymentMySuffixUpdateProps extends StateProps, DispatchProps, 
 
 export interface IPaymentMySuffixUpdateState {
   isNew: boolean;
+  userId: number;
 }
 
 export class PaymentMySuffixUpdate extends React.Component<IPaymentMySuffixUpdateProps, IPaymentMySuffixUpdateState> {
   constructor(props) {
     super(props);
     this.state = {
+      userId: 0,
       isNew: !this.props.match.params || !this.props.match.params.id
     };
   }
@@ -32,6 +36,8 @@ export class PaymentMySuffixUpdate extends React.Component<IPaymentMySuffixUpdat
     if (!this.state.isNew) {
       this.props.getEntity(this.props.match.params.id);
     }
+
+    this.props.getUsers();
   }
 
   saveEntity = (event, errors, values) => {
@@ -58,7 +64,7 @@ export class PaymentMySuffixUpdate extends React.Component<IPaymentMySuffixUpdat
   };
 
   render() {
-    const { paymentEntity, loading, updating } = this.props;
+    const { paymentEntity, users, loading, updating } = this.props;
     const { isNew } = this.state;
 
     return (
@@ -112,6 +118,19 @@ export class PaymentMySuffixUpdate extends React.Component<IPaymentMySuffixUpdat
                     <option value="JALASE">JALASE</option>
                   </AvInput>
                 </AvGroup>
+                <AvGroup>
+                  <Label for="user.login">User</Label>
+                  <AvInput id="payment-my-suffix-user" type="select" className="form-control" name="userId">
+                    <option value="" key="0" />
+                    {users
+                      ? users.map(otherEntity => (
+                          <option value={otherEntity.id} key={otherEntity.id}>
+                            {otherEntity.login}
+                          </option>
+                        ))
+                      : null}
+                  </AvInput>
+                </AvGroup>
                 <Button tag={Link} id="cancel-save" to="/entity/payment-my-suffix" replace color="info">
                   <FontAwesomeIcon icon="arrow-left" />&nbsp;
                   <span className="d-none d-md-inline">Back</span>
@@ -130,12 +149,14 @@ export class PaymentMySuffixUpdate extends React.Component<IPaymentMySuffixUpdat
 }
 
 const mapStateToProps = (storeState: IRootState) => ({
+  users: storeState.userManagement.users,
   paymentEntity: storeState.payment.entity,
   loading: storeState.payment.loading,
   updating: storeState.payment.updating
 });
 
 const mapDispatchToProps = {
+  getUsers,
   getEntity,
   updateEntity,
   createEntity,

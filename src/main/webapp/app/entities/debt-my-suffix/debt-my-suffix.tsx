@@ -97,6 +97,9 @@ export class DebtMySuffix extends React.Component<IDebtMySuffixProps, IDebtMySuf
                   <th className="hand" onClick={this.sort('reason')}>
                     Reason <FontAwesomeIcon icon="sort" />
                   </th>
+                  <th>
+                    User <FontAwesomeIcon icon="sort" />
+                  </th>
                   <th />
                 </tr>
               </thead>
@@ -113,6 +116,7 @@ export class DebtMySuffix extends React.Component<IDebtMySuffixProps, IDebtMySuf
                       <TextFormat type="date" value={debt.paymentTime} format={APP_DATE_FORMAT} />
                     </td>
                     <td>{debt.reason}</td>
+                    <td>{debt.userLogin ? debt.userLogin : ''}</td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`${match.url}/${debt.id}`} color="info" size="sm">

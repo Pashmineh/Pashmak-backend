@@ -11,6 +11,8 @@ export interface IPaymentMySuffix {
   amount?: number;
   paymentTime?: Moment;
   reason?: PaymentType;
+  userLogin?: string;
+  userId?: number;
 }
 
 export const defaultValue: Readonly<IPaymentMySuffix> = {};

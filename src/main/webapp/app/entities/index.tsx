@@ -7,6 +7,8 @@ import ErrorBoundaryRoute from 'app/shared/error/error-boundary-route';
 import EventMySuffix from './event-my-suffix';
 import PaymentMySuffix from './payment-my-suffix';
 import DebtMySuffix from './debt-my-suffix';
+import Message from './message';
+import Checkin from './checkin';
 /* jhipster-needle-add-route-import - JHipster will add routes here */
 
 const Routes = ({ match }) => (
@@ -16,6 +18,8 @@ const Routes = ({ match }) => (
       <ErrorBoundaryRoute path={`${match.url}/event-my-suffix`} component={EventMySuffix} />
       <ErrorBoundaryRoute path={`${match.url}/payment-my-suffix`} component={PaymentMySuffix} />
       <ErrorBoundaryRoute path={`${match.url}/debt-my-suffix`} component={DebtMySuffix} />
+      <ErrorBoundaryRoute path={`${match.url}/message`} component={Message} />
+      <ErrorBoundaryRoute path={`${match.url}/checkin`} component={Checkin} />
       {/* jhipster-needle-add-route-path - JHipster will routes here */}
     </Switch>
   </div>

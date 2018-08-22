@@ -97,6 +97,9 @@ export class PaymentMySuffix extends React.Component<IPaymentMySuffixProps, IPay
                   <th className="hand" onClick={this.sort('reason')}>
                     Reason <FontAwesomeIcon icon="sort" />
                   </th>
+                  <th>
+                    User <FontAwesomeIcon icon="sort" />
+                  </th>
                   <th />
                 </tr>
               </thead>
@@ -113,6 +116,7 @@ export class PaymentMySuffix extends React.Component<IPaymentMySuffixProps, IPay
                       <TextFormat type="date" value={payment.paymentTime} format={APP_DATE_FORMAT} />
                     </td>
                     <td>{payment.reason}</td>
+                    <td>{payment.userLogin ? payment.userLogin : ''}</td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`${match.url}/${payment.id}`} color="info" size="sm">

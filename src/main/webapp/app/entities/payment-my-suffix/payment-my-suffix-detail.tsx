@@ -42,6 +42,8 @@ export class PaymentMySuffixDetail extends React.Component<IPaymentMySuffixDetai
               <span id="reason">Reason</span>
             </dt>
             <dd>{paymentEntity.reason}</dd>
+            <dt>User</dt>
+            <dd>{paymentEntity.userLogin ? paymentEntity.userLogin : ''}</dd>
           </dl>
           <Button tag={Link} to="/entity/payment-my-suffix" replace color="info">
             <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">Back</span>

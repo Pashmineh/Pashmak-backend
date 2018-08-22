@@ -42,6 +42,8 @@ export class DebtMySuffixDetail extends React.Component<IDebtMySuffixDetailProps
               <span id="reason">Reason</span>
             </dt>
             <dd>{debtEntity.reason}</dd>
+            <dt>User</dt>
+            <dd>{debtEntity.userLogin ? debtEntity.userLogin : ''}</dd>
           </dl>
           <Button tag={Link} to="/entity/debt-my-suffix" replace color="info">
             <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">Back</span>

@@ -23,6 +23,22 @@ import payment, {
 import debt, {
   DebtMySuffixState
 } from 'app/entities/debt-my-suffix/debt-my-suffix.reducer';
+// prettier-ignore
+import message, {
+  MessageState
+} from 'app/entities/message/message.reducer';
+// prettier-ignore
+import checkin, {
+  CheckinState
+} from 'app/entities/checkin/checkin.reducer';
+// prettier-ignore
+import payment, {
+  PaymentMySuffixState
+} from 'app/entities/payment-my-suffix/payment-my-suffix.reducer';
+// prettier-ignore
+import debt, {
+  DebtMySuffixState
+} from 'app/entities/debt-my-suffix/debt-my-suffix.reducer';
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
 
 export interface IRootState {
@@ -38,6 +54,8 @@ export interface IRootState {
   readonly event: EventMySuffixState;
   readonly payment: PaymentMySuffixState;
   readonly debt: DebtMySuffixState;
+  readonly message: MessageState;
+  readonly checkin: CheckinState;
   /* jhipster-needle-add-reducer-type - JHipster will add reducer type here */
   readonly loadingBar: any;
 }
@@ -55,6 +73,8 @@ const rootReducer = combineReducers<IRootState>({
   event,
   payment,
   debt,
+  message,
+  checkin,
   /* jhipster-needle-add-reducer-combine - JHipster will add reducer here */
   loadingBar
 });

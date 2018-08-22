@@ -41,6 +41,8 @@ public class CacheConfiguration {
             cm.createCache(com.kian.pashmak.domain.Event.class.getName(), jcacheConfiguration);
             cm.createCache(com.kian.pashmak.domain.Payment.class.getName(), jcacheConfiguration);
             cm.createCache(com.kian.pashmak.domain.Debt.class.getName(), jcacheConfiguration);
+            cm.createCache(com.kian.pashmak.domain.Message.class.getName(), jcacheConfiguration);
+            cm.createCache(com.kian.pashmak.domain.Checkin.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }
