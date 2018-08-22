@@ -15,10 +15,30 @@ entity Debt {
     paymentTime ZonedDateTime,
     reason PaymentType
 }
+
+entity Message {
+    sendTime ZonedDateTime,
+    reason MessageType,
+    message String
+}
+
+entity Checkin {
+    checkInTime ZonedDateTime,
+    message String
+}
 enum PaymentType {
     TAKHIR, SHIRINI, JALASE
 }
+enum MessageType {
+    SMS, PUSH, EMAIL
+}
 
+relationship ManyToOne{
+  Debt {user} to User,
+  Chekin {user} to User,
+  Message {user} to User,
+  Payment {user} to User
+}
 // Set pagination options
 paginate Payment, Debt with infinite-scroll
 
