@@ -1,0 +1,30 @@
+entity Event {
+	location String,
+    eventTime ZonedDateTime,
+    name String,
+    description String
+}
+entity Payment {
+	amount BigDecimal,
+    paymentTime ZonedDateTime,
+    reason PaymentType
+}
+
+entity Debt {
+	amount BigDecimal,
+    paymentTime ZonedDateTime,
+    reason PaymentType
+}
+enum PaymentType {
+    TAKHIR, SHIRINI, JALASE
+}
+
+// Set pagination options
+paginate Payment, Debt with infinite-scroll
+
+dto * with mapstruct
+
+// Set service options to all except few
+service all with serviceImpl 
+// Set an angular suffix
+angularSuffix * with mySuffix
