@@ -1,7 +1,11 @@
 package com.kian.pashmak.web.rest;
 
+import com.kian.pashmak.domain.User;
+import com.kian.pashmak.repository.UserRepository;
+import com.kian.pashmak.security.SecurityUtils;
 import com.kian.pashmak.security.jwt.JWTConfigurer;
 import com.kian.pashmak.security.jwt.TokenProvider;
+import com.kian.pashmak.service.UserService;
 import com.kian.pashmak.web.rest.vm.LoginVM;
 
 import com.codahale.metrics.annotation.Timed;
@@ -26,11 +30,15 @@ import javax.validation.Valid;
 public class UserJWTController {
 
     private final TokenProvider tokenProvider;
+    private final UserRepository userRepository;
+    private final UserService userService;
 
     private final AuthenticationManager authenticationManager;
 
-    public UserJWTController(TokenProvider tokenProvider, AuthenticationManager authenticationManager) {
+    public UserJWTController(TokenProvider tokenProvider, UserRepository userRepository, UserService userService, AuthenticationManager authenticationManager) {
         this.tokenProvider = tokenProvider;
+        this.userRepository = userRepository;
+        this.userService = userService;
         this.authenticationManager = authenticationManager;
     }
 
@@ -47,6 +55,9 @@ public class UserJWTController {
         String jwt = tokenProvider.createToken(authentication, rememberMe);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JWTConfigurer.AUTHORIZATION_HEADER, "Bearer " + jwt);
+        User user = userService.getUserWithAuthoritiesByLogin(SecurityUtils.getCurrentUserLogin().get()).get();
+        user.setPushToken(loginVM.getToken());
+        userRepository.save(user);
         return new ResponseEntity<>(new JWTToken(jwt), httpHeaders, HttpStatus.OK);
     }
 

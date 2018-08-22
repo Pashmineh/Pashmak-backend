@@ -18,6 +18,8 @@ public class LoginVM {
 
     private Boolean rememberMe;
 
+    private String token;
+
     public String getUsername() {
         return username;
     }
@@ -40,6 +42,14 @@ public class LoginVM {
 
     public void setRememberMe(Boolean rememberMe) {
         this.rememberMe = rememberMe;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     @Override
