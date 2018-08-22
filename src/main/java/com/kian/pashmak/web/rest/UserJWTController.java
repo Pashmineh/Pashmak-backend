@@ -6,6 +6,7 @@ import com.kian.pashmak.security.SecurityUtils;
 import com.kian.pashmak.security.jwt.JWTConfigurer;
 import com.kian.pashmak.security.jwt.TokenProvider;
 import com.kian.pashmak.service.UserService;
+import com.kian.pashmak.service.dto.LoginDTO;
 import com.kian.pashmak.web.rest.vm.LoginVM;
 
 import com.codahale.metrics.annotation.Timed;
@@ -44,7 +45,7 @@ public class UserJWTController {
 
     @PostMapping("/authenticate")
     @Timed
-    public ResponseEntity<JWTToken> authorize(@Valid @RequestBody LoginVM loginVM) {
+    public ResponseEntity<LoginDTO> authorize(@Valid @RequestBody LoginVM loginVM) {
 
         UsernamePasswordAuthenticationToken authenticationToken =
             new UsernamePasswordAuthenticationToken(loginVM.getUsername(), loginVM.getPassword());
@@ -58,7 +59,13 @@ public class UserJWTController {
         User user = userService.getUserWithAuthoritiesByLogin(SecurityUtils.getCurrentUserLogin().get()).get();
         user.setPushToken(loginVM.getToken());
         userRepository.save(user);
-        return new ResponseEntity<>(new JWTToken(jwt), httpHeaders, HttpStatus.OK);
+        LoginDTO loginDTO= new LoginDTO();
+        loginDTO.setName(user.getFirstName());
+        loginDTO.setAvatar(user.getAvatar());
+        loginDTO.setLastName(user.getLastName());
+        loginDTO.setToken(jwt);
+
+        return new ResponseEntity<>(loginDTO, httpHeaders, HttpStatus.OK);
     }
 
     /**
