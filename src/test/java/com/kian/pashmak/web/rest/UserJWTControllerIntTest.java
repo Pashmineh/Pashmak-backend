@@ -4,6 +4,7 @@ import com.kian.pashmak.PashmakApp;
 import com.kian.pashmak.domain.User;
 import com.kian.pashmak.repository.UserRepository;
 import com.kian.pashmak.security.jwt.TokenProvider;
+import com.kian.pashmak.service.UserService;
 import com.kian.pashmak.web.rest.vm.LoginVM;
 import com.kian.pashmak.web.rest.errors.ExceptionTranslator;
 import org.junit.Before;
@@ -42,6 +43,9 @@ public class UserJWTControllerIntTest {
     private AuthenticationManager authenticationManager;
 
     @Autowired
+
+    private UserService userService;
+    @Autowired
     private UserRepository userRepository;
 
     @Autowired
@@ -54,7 +58,7 @@ public class UserJWTControllerIntTest {
 
     @Before
     public void setup() {
-        UserJWTController userJWTController = new UserJWTController(tokenProvider, authenticationManager);
+        UserJWTController userJWTController = new UserJWTController(tokenProvider, userRepository, userService, authenticationManager);
         this.mockMvc = MockMvcBuilders.standaloneSetup(userJWTController)
             .setControllerAdvice(exceptionTranslator)
             .build();
