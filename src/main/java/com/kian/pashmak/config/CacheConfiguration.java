@@ -38,6 +38,9 @@ public class CacheConfiguration {
             cm.createCache(com.kian.pashmak.domain.User.class.getName(), jcacheConfiguration);
             cm.createCache(com.kian.pashmak.domain.Authority.class.getName(), jcacheConfiguration);
             cm.createCache(com.kian.pashmak.domain.User.class.getName() + ".authorities", jcacheConfiguration);
+            cm.createCache(com.kian.pashmak.domain.Event.class.getName(), jcacheConfiguration);
+            cm.createCache(com.kian.pashmak.domain.Payment.class.getName(), jcacheConfiguration);
+            cm.createCache(com.kian.pashmak.domain.Debt.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

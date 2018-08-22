@@ -11,6 +11,18 @@ import activate, { ActivateState } from 'app/modules/account/activate/activate.r
 import password, { PasswordState } from 'app/modules/account/password/password.reducer';
 import settings, { SettingsState } from 'app/modules/account/settings/settings.reducer';
 import passwordReset, { PasswordResetState } from 'app/modules/account/password-reset/password-reset.reducer';
+// prettier-ignore
+import event, {
+  EventMySuffixState
+} from 'app/entities/event-my-suffix/event-my-suffix.reducer';
+// prettier-ignore
+import payment, {
+  PaymentMySuffixState
+} from 'app/entities/payment-my-suffix/payment-my-suffix.reducer';
+// prettier-ignore
+import debt, {
+  DebtMySuffixState
+} from 'app/entities/debt-my-suffix/debt-my-suffix.reducer';
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
 
 export interface IRootState {
@@ -23,6 +35,9 @@ export interface IRootState {
   readonly passwordReset: PasswordResetState;
   readonly password: PasswordState;
   readonly settings: SettingsState;
+  readonly event: EventMySuffixState;
+  readonly payment: PaymentMySuffixState;
+  readonly debt: DebtMySuffixState;
   /* jhipster-needle-add-reducer-type - JHipster will add reducer type here */
   readonly loadingBar: any;
 }
@@ -37,6 +52,9 @@ const rootReducer = combineReducers<IRootState>({
   passwordReset,
   password,
   settings,
+  event,
+  payment,
+  debt,
   /* jhipster-needle-add-reducer-combine - JHipster will add reducer here */
   loadingBar
 });

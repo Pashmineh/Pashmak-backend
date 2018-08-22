@@ -1,0 +1,29 @@
+{
+    "name": "Payment",
+    "fields": [
+        {
+            "fieldName": "amount",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "paymentTime",
+            "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "reason",
+            "fieldType": "PaymentType",
+            "fieldValues": "TAKHIR,SHIRINI,JALASE"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20180822100355",
+    "entityTableName": "payment",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*",
+    "angularJSSuffix": "mySuffix"
+}
