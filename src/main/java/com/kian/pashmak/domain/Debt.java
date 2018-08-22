@@ -37,6 +37,18 @@ public class Debt implements Serializable {
     @Column(name = "reason")
     private PaymentType reason;
 
+    @ManyToOne
+    private User user;
+
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;

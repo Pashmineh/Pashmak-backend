@@ -14,6 +14,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Objects;
@@ -77,6 +78,9 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @JsonIgnore
     private String activationKey;
 
+    @Column(name = "push_token")
+    private String pushToken;
+
     @Size(max = 20)
     @Column(name = "reset_key", length = 20)
     @JsonIgnore
@@ -84,6 +88,8 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     @Column(name = "reset_date")
     private Instant resetDate = null;
+
+    private BigDecimal balance;
 
     @JsonIgnore
     @ManyToMany
@@ -105,6 +111,14 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     public String getLogin() {
         return login;
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
     }
 
     // Lowercase the login before saving it in database
@@ -216,6 +230,15 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hashCode(getId());
+    }
+
+
+    public String getPushToken() {
+        return pushToken;
+    }
+
+    public void setPushToken(String pushToken) {
+        this.pushToken = pushToken;
     }
 
     @Override

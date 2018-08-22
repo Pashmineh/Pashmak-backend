@@ -37,6 +37,8 @@ public class Payment implements Serializable {
     @Column(name = "reason")
     private PaymentType reason;
 
+    @ManyToOne
+    private User user;
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -44,6 +46,14 @@ public class Payment implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public BigDecimal getAmount() {
