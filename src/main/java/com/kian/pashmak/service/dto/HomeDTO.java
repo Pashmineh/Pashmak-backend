@@ -14,14 +14,24 @@ import java.util.Objects;
  */
 public class HomeDTO implements Serializable {
 
-    private BigDecimal balance;
+    private String cycle;
+    private BalanceDTO balance;
     private List<Event> events;
 
-    public BigDecimal getBalance() {
+
+    public String getCycle() {
+        return cycle;
+    }
+
+    public void setCycle(String cycle) {
+        this.cycle = cycle;
+    }
+
+    public BalanceDTO getBalance() {
         return balance;
     }
 
-    public void setBalance(BigDecimal balance) {
+    public void setBalance(BalanceDTO balance) {
         this.balance = balance;
     }
 

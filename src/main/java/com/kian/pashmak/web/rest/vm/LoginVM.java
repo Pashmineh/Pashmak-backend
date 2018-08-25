@@ -19,6 +19,28 @@ public class LoginVM {
     private Boolean rememberMe;
 
     private String token;
+    private String platform;
+    private String deviceID;
+
+    public Boolean getRememberMe() {
+        return rememberMe;
+    }
+
+    public String getPlatform() {
+        return platform;
+    }
+
+    public void setPlatform(String platform) {
+        this.platform = platform;
+    }
+
+    public String getDeviceID() {
+        return deviceID;
+    }
+
+    public void setDeviceID(String deviceID) {
+        this.deviceID = deviceID;
+    }
 
     public String getUsername() {
         return username;
