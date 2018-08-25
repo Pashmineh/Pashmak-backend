@@ -119,7 +119,7 @@ public class AccountResource {
         BalanceDTO b = new BalanceDTO();
         b.setBalance(new BigDecimal(4000));
         b.setTotalPaid(new BigDecimal(600000));
-        homeDTO.setBalance();
+        homeDTO.setBalance(b);
         homeDTO.setEvents(events);
         log.debug("REST request to check if the current user is authenticated");
         return homeDTO;
