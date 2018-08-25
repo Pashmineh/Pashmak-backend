@@ -9,11 +9,13 @@ import com.kian.pashmak.repository.UserRepository;
 import com.kian.pashmak.security.SecurityUtils;
 import com.kian.pashmak.service.MailService;
 import com.kian.pashmak.service.UserService;
+import com.kian.pashmak.service.dto.BalanceDTO;
 import com.kian.pashmak.service.dto.HomeDTO;
 import com.kian.pashmak.service.dto.UserDTO;
 import com.kian.pashmak.web.rest.errors.*;
 import com.kian.pashmak.web.rest.vm.KeyAndPasswordVM;
 import com.kian.pashmak.web.rest.vm.ManagedUserVM;
+import java.math.BigDecimal;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -113,7 +115,11 @@ public class AccountResource {
         HomeDTO homeDTO= new HomeDTO();
         User user = userService.getUserWithAuthoritiesByLogin(SecurityUtils.getCurrentUserLogin().get()).get();
         List<Event> events = eventRepository.findAll();
-        homeDTO.setBalance(user.getBalance());
+        homeDTO.setCycle("  شهریور ۹۷");
+        BalanceDTO b = new BalanceDTO();
+        b.setBalance(new BigDecimal(4000));
+        b.setTotalPaid(new BigDecimal(600000));
+        homeDTO.setBalance();
         homeDTO.setEvents(events);
         log.debug("REST request to check if the current user is authenticated");
         return homeDTO;
