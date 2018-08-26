@@ -30,6 +30,9 @@ public class Event implements Serializable {
     @Column(name = "event_time")
     private ZonedDateTime eventTime;
 
+    @Transient
+    private Long epochTime;
+
     @Column(name = "name")
     private String name;
 
@@ -91,6 +94,14 @@ public class Event implements Serializable {
     public Event description(String description) {
         this.description = description;
         return this;
+    }
+
+    public Long getEpochTime() {
+        return eventTime.toEpochSecond()*1000;
+    }
+
+    public void setEpochTime(Long epochTime) {
+        this.epochTime = epochTime;
     }
 
     public void setDescription(String description) {
