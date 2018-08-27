@@ -143,8 +143,13 @@ public class UserResource {
     @GetMapping("/users")
     @Timed
     public ResponseEntity<List<UserDTO>> getAllUsers(Pageable pageable) {
+
+        System.out.println(pageable.getPageNumber());
+        System.out.println(pageable.getPageSize());
         final Page<UserDTO> page = userService.getAllManagedUsers(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users");
+
+        System.out.println(page.getContent().size());
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
