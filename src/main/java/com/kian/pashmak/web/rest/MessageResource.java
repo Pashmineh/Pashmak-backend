@@ -73,13 +73,14 @@ public class MessageResource {
         MessageDTO result = messageService.save(messageDTO);
         System.out.println(messageDTO.getUserLogin());
         System.out.println(messageDTO.getUserId());
-        User user= userRepository.findOneByLogin(messageDTO.getUserLogin()).get();
+        User user= userRepository.findOneWithAuthoritiesById(messageDTO.getUserId()).get();
         Push push= new Push();
         List<Notification> notif= new ArrayList<>();
         Notification notification= new Notification();
         notification.setTokens(Lists.newArrayList(user.getPushToken()));
         notification.setPlatform(user.getPlatform().equals("IOS")?1:2);
         notification.setPriority("high");
+        notification.setTitle("پشمک");
         notification.setTopic("com.pashmak.app");
         notification.setMutableContent(true);
         Alert alert= new Alert();
