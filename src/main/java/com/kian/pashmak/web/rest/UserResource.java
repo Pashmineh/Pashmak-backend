@@ -18,6 +18,7 @@ import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -144,9 +145,7 @@ public class UserResource {
     @Timed
     public ResponseEntity<List<UserDTO>> getAllUsers(Pageable pageable) {
 
-        System.out.println(pageable.getPageNumber());
-        System.out.println(pageable.getPageSize());
-        final Page<UserDTO> page = userService.getAllManagedUsers(pageable);
+        final Page<UserDTO> page = userService.getAllManagedUsers(new PageRequest(0,50));
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users");
 
         System.out.println(page.getContent().size());
