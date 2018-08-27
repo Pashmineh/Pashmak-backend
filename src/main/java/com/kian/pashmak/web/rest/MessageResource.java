@@ -89,6 +89,7 @@ public class MessageResource {
         alert.setBody(messageDTO.getMessage());
         alert.setActionLocKey("نمایش");
         notification.setAlert(alert);
+        notif.add(notification);
         push.setNotifications(notif);
         try {
             System.out.println(new ObjectMapper().writeValueAsString(push));
