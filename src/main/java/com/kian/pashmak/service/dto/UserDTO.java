@@ -45,6 +45,8 @@ public class UserDTO {
 
     private String createdBy;
 
+    private String platform;
+
     private Instant createdDate;
 
     private String lastModifiedBy;
@@ -73,6 +75,14 @@ public class UserDTO {
         this.authorities = user.getAuthorities().stream()
             .map(Authority::getName)
             .collect(Collectors.toSet());
+    }
+
+    public String getPlatform() {
+        return platform;
+    }
+
+    public void setPlatform(String platform) {
+        this.platform = platform;
     }
 
     public Long getId() {
