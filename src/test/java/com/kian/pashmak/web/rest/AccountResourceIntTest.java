@@ -6,11 +6,13 @@ import com.kian.pashmak.domain.Authority;
 import com.kian.pashmak.domain.User;
 import com.kian.pashmak.repository.AuthorityRepository;
 import com.kian.pashmak.repository.EventRepository;
+import com.kian.pashmak.repository.PaymentRepository;
 import com.kian.pashmak.repository.UserRepository;
 import com.kian.pashmak.security.AuthoritiesConstants;
 import com.kian.pashmak.service.MailService;
 import com.kian.pashmak.service.dto.UserDTO;
 import com.kian.pashmak.service.dto.PasswordChangeDTO;
+import com.kian.pashmak.service.mapper.EventMapper;
 import com.kian.pashmak.web.rest.errors.ExceptionTranslator;
 import com.kian.pashmak.web.rest.vm.KeyAndPasswordVM;
 import com.kian.pashmak.web.rest.vm.ManagedUserVM;
@@ -63,6 +65,11 @@ public class AccountResourceIntTest {
 
     @Autowired
     private EventRepository eventRepository;
+    @Autowired
+    private PaymentRepository paymentRepository;
+
+    @Autowired
+    private EventMapper eventMapper;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -88,10 +95,10 @@ public class AccountResourceIntTest {
         MockitoAnnotations.initMocks(this);
         doNothing().when(mockMailService).sendActivationEmail(any());
         AccountResource accountResource =
-            new AccountResource(userRepository, eventRepository, userService, mockMailService);
+            new AccountResource(userRepository, eventRepository, eventMapper, userService, mockMailService, paymentRepository);
 
         AccountResource accountUserMockResource =
-            new AccountResource(userRepository, eventRepository, mockUserService, mockMailService);
+            new AccountResource(userRepository, eventRepository, eventMapper, mockUserService, mockMailService, paymentRepository);
         this.restMvc = MockMvcBuilders.standaloneSetup(accountResource)
             .setMessageConverters(httpMessageConverters)
             .setControllerAdvice(exceptionTranslator)
