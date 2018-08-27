@@ -15,9 +15,16 @@ public class EventDTO implements Serializable {
 
     private ZonedDateTime eventTime;
 
+    private long eventTimeEpoch;
+
     private String name;
 
     private String description;
+
+
+    public long getEventTimeEpoch() {
+        return eventTime.toEpochSecond()*1000;
+    }
 
     public Long getId() {
         return id;

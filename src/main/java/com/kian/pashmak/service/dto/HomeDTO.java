@@ -16,7 +16,7 @@ public class HomeDTO implements Serializable {
 
     private String cycle;
     private BalanceDTO balance;
-    private List<Event> events;
+    private List<EventDTO> events;
 
 
     public String getCycle() {
@@ -35,11 +35,11 @@ public class HomeDTO implements Serializable {
         this.balance = balance;
     }
 
-    public List<Event> getEvents() {
+    public List<EventDTO> getEvents() {
         return events;
     }
 
-    public void setEvents(List<Event> events) {
+    public void setEvents(List<EventDTO> events) {
         this.events = events;
     }
 }

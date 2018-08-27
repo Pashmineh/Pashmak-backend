@@ -3,8 +3,10 @@ package com.kian.pashmak.web.rest;
 import com.codahale.metrics.annotation.Timed;
 
 import com.kian.pashmak.domain.Event;
+import com.kian.pashmak.domain.Payment;
 import com.kian.pashmak.domain.User;
 import com.kian.pashmak.repository.EventRepository;
+import com.kian.pashmak.repository.PaymentRepository;
 import com.kian.pashmak.repository.UserRepository;
 import com.kian.pashmak.security.SecurityUtils;
 import com.kian.pashmak.service.MailService;
@@ -12,6 +14,7 @@ import com.kian.pashmak.service.UserService;
 import com.kian.pashmak.service.dto.BalanceDTO;
 import com.kian.pashmak.service.dto.HomeDTO;
 import com.kian.pashmak.service.dto.UserDTO;
+import com.kian.pashmak.service.mapper.EventMapper;
 import com.kian.pashmak.web.rest.errors.*;
 import com.kian.pashmak.web.rest.vm.KeyAndPasswordVM;
 import com.kian.pashmak.web.rest.vm.ManagedUserVM;
@@ -43,16 +46,22 @@ public class AccountResource {
 
     private final EventRepository eventRepository;
 
+    private final EventMapper eventMapper;
+
     private final UserService userService;
 
     private final MailService mailService;
 
-    public AccountResource(UserRepository userRepository, EventRepository eventRepository, UserService userService, MailService mailService) {
+    private final PaymentRepository paymentRepository;
+
+    public AccountResource(UserRepository userRepository, EventRepository eventRepository, EventMapper eventMapper, UserService userService, MailService mailService, PaymentRepository paymentRepository) {
 
         this.userRepository = userRepository;
         this.eventRepository = eventRepository;
+        this.eventMapper = eventMapper;
         this.userService = userService;
         this.mailService = mailService;
+        this.paymentRepository = paymentRepository;
     }
 
     /**
@@ -115,12 +124,15 @@ public class AccountResource {
         HomeDTO homeDTO= new HomeDTO();
         User user = userService.getUserWithAuthoritiesByLogin(SecurityUtils.getCurrentUserLogin().get()).get();
         List<Event> events = eventRepository.findAll();
+        List<Payment> paymesnts = paymentRepository.findByUserIsCurrentUser();
         homeDTO.setCycle("  شهریور ۹۷");
         BalanceDTO b = new BalanceDTO();
-        b.setBalance(new BigDecimal(4000));
-        b.setTotalPaid(new BigDecimal(600000));
+        b.setBalance(user.getBalance());
+        if(paymesnts.size()>0)
+        b.setTotalPaid(BigDecimal.valueOf(paymesnts.stream().mapToDouble(p->p.getAmount().longValue()).sum()));
+        b.setTotalPaid(new BigDecimal(0));
         homeDTO.setBalance(b);
-        homeDTO.setEvents(events);
+        homeDTO.setEvents(eventMapper.toDto(events));
         log.debug("REST request to check if the current user is authenticated");
         return homeDTO;
     }
