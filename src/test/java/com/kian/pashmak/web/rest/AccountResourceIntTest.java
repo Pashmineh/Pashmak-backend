@@ -65,6 +65,7 @@ public class AccountResourceIntTest {
 
     @Autowired
     private EventRepository eventRepository;
+
     @Autowired
     private PaymentRepository paymentRepository;
 
