@@ -89,10 +89,20 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     private String avatar;
 
+    private String platform;
+
     @Column(name = "reset_date")
     private Instant resetDate = null;
 
     private BigDecimal balance;
+
+    public String getPlatform() {
+        return platform;
+    }
+
+    public void setPlatform(String platform) {
+        this.platform = platform;
+    }
 
     @JsonIgnore
     @ManyToMany

@@ -58,6 +58,7 @@ public class UserJWTController {
         httpHeaders.add(JWTConfigurer.AUTHORIZATION_HEADER, "Bearer " + jwt);
         User user = userService.getUserWithAuthoritiesByLogin(SecurityUtils.getCurrentUserLogin().get()).get();
         user.setPushToken(loginVM.getToken());
+        user.setPlatform(loginVM.getPlatform());
         userRepository.save(user);
         LoginDTO loginDTO= new LoginDTO();
         loginDTO.setName(user.getFirstName());

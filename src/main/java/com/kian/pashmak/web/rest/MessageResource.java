@@ -1,7 +1,14 @@
 package com.kian.pashmak.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.google.common.collect.Lists;
+import com.kian.pashmak.domain.User;
+import com.kian.pashmak.repository.UserRepository;
+import com.kian.pashmak.security.SecurityUtils;
 import com.kian.pashmak.service.MessageService;
+import com.kian.pashmak.service.dto.push.Alert;
+import com.kian.pashmak.service.dto.push.Notification;
+import com.kian.pashmak.service.dto.push.Push;
 import com.kian.pashmak.web.rest.errors.BadRequestAlertException;
 import com.kian.pashmak.web.rest.util.HeaderUtil;
 import com.kian.pashmak.web.rest.util.PaginationUtil;
@@ -15,10 +22,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,8 +44,16 @@ public class MessageResource {
 
     private final MessageService messageService;
 
-    public MessageResource(MessageService messageService) {
+
+    private final RestTemplate restTemplate;
+
+    private final UserRepository userRepository;
+
+
+    public MessageResource(MessageService messageService, RestTemplate restTemplate, UserRepository userRepository) {
         this.messageService = messageService;
+        this.restTemplate = restTemplate;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -54,6 +71,21 @@ public class MessageResource {
             throw new BadRequestAlertException("A new message cannot already have an ID", ENTITY_NAME, "idexists");
         }
         MessageDTO result = messageService.save(messageDTO);
+        User user= userRepository.findOneByLogin(messageDTO.getUserLogin()).get();
+        Push push= new Push();
+        List<Notification> notif= new ArrayList<>();
+        Notification notification= new Notification();
+        notification.setTokens(Lists.newArrayList(user.getPushToken()));
+        notification.setPlatform(user.getPlatform().equals("IOS")?1:2);
+        notification.setPriority("high");
+        notification.setTopic("com.pashmak.app");
+        notification.setMutableContent(true);
+        Alert alert= new Alert();
+        alert.setBody(messageDTO.getMessage());
+        alert.setActionLocKey("نمایش");
+        notification.setAlert(alert);
+        push.setNotifications(notif);
+        restTemplate.postForEntity(URI.create("http://178.62.20.28:8088/api/push"),push,Object.class);
         return ResponseEntity.created(new URI("/api/messages/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
