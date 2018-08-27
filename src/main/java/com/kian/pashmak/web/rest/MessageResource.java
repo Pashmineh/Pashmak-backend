@@ -71,6 +71,8 @@ public class MessageResource {
             throw new BadRequestAlertException("A new message cannot already have an ID", ENTITY_NAME, "idexists");
         }
         MessageDTO result = messageService.save(messageDTO);
+        System.out.println(messageDTO.getUserLogin());
+        System.out.println(messageDTO.getUserId());
         User user= userRepository.findOneByLogin(messageDTO.getUserLogin()).get();
         Push push= new Push();
         List<Notification> notif= new ArrayList<>();
