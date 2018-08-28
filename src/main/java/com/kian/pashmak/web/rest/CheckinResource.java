@@ -65,6 +65,7 @@ public class CheckinResource {
     @Timed
     public ResponseEntity<CheckinDTO> checkIn(@RequestParam("checkinType") CheckinType checkinType) throws URISyntaxException {
         CheckinDTO checkinDTO= new CheckinDTO();
+        checkinDTO.setCheckinTime(ZonedDateTime.now());
         checkinDTO.setUserLogin(SecurityUtils.getCurrentUserLogin().get());
         CheckinDTO result = checkinService.save(checkinDTO);
         return ResponseEntity.created(new URI("/api/checkins/" + result.getId()))

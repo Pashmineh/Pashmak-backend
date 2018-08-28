@@ -125,6 +125,8 @@ public class AccountResource {
         User user = userService.getUserWithAuthoritiesByLogin(SecurityUtils.getCurrentUserLogin().get()).get();
         List<Event> events = eventRepository.findAll();
         List<Payment> paymesnts = paymentRepository.findByUserIsCurrentUser();
+        System.out.println(user.getBalance());
+        System.out.println(user.getLogin());
         homeDTO.setCycle("  شهریور ۹۷");
         BalanceDTO b = new BalanceDTO();
         b.setBalance(user.getBalance());
