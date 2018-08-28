@@ -1,5 +1,7 @@
 package com.kian.pashmak.service.impl;
 
+import com.kian.pashmak.domain.User;
+import com.kian.pashmak.repository.UserRepository;
 import com.kian.pashmak.service.PaymentService;
 import com.kian.pashmak.domain.Payment;
 import com.kian.pashmak.repository.PaymentRepository;
@@ -25,11 +27,13 @@ public class PaymentServiceImpl implements PaymentService {
     private final Logger log = LoggerFactory.getLogger(PaymentServiceImpl.class);
 
     private final PaymentRepository paymentRepository;
+    private final UserRepository userRepository;
 
     private final PaymentMapper paymentMapper;
 
-    public PaymentServiceImpl(PaymentRepository paymentRepository, PaymentMapper paymentMapper) {
+    public PaymentServiceImpl(PaymentRepository paymentRepository, UserRepository userRepository, PaymentMapper paymentMapper) {
         this.paymentRepository = paymentRepository;
+        this.userRepository = userRepository;
         this.paymentMapper = paymentMapper;
     }
 
@@ -44,6 +48,9 @@ public class PaymentServiceImpl implements PaymentService {
         log.debug("Request to save Payment : {}", paymentDTO);
         Payment payment = paymentMapper.toEntity(paymentDTO);
         payment = paymentRepository.save(payment);
+        User user=payment.getUser();
+        user.setBalance(user.getBalance().add(payment.getAmount()));
+        userRepository.save(user);
         return paymentMapper.toDto(payment);
     }
 

@@ -130,6 +130,7 @@ public class AccountResource {
         b.setBalance(user.getBalance());
         if(paymesnts.size()>0)
         b.setTotalPaid(BigDecimal.valueOf(paymesnts.stream().mapToDouble(p->p.getAmount().longValue()).sum()));
+        else
         b.setTotalPaid(new BigDecimal(0));
         homeDTO.setBalance(b);
         homeDTO.setEvents(eventMapper.toDto(events));

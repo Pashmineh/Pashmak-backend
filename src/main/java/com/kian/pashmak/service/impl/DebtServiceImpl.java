@@ -1,5 +1,7 @@
 package com.kian.pashmak.service.impl;
 
+import com.kian.pashmak.domain.User;
+import com.kian.pashmak.repository.UserRepository;
 import com.kian.pashmak.service.DebtService;
 import com.kian.pashmak.domain.Debt;
 import com.kian.pashmak.repository.DebtRepository;
@@ -25,11 +27,13 @@ public class DebtServiceImpl implements DebtService {
     private final Logger log = LoggerFactory.getLogger(DebtServiceImpl.class);
 
     private final DebtRepository debtRepository;
+    private final UserRepository userRepository;
 
     private final DebtMapper debtMapper;
 
-    public DebtServiceImpl(DebtRepository debtRepository, DebtMapper debtMapper) {
+    public DebtServiceImpl(DebtRepository debtRepository, UserRepository userRepository, DebtMapper debtMapper) {
         this.debtRepository = debtRepository;
+        this.userRepository = userRepository;
         this.debtMapper = debtMapper;
     }
 
@@ -43,7 +47,11 @@ public class DebtServiceImpl implements DebtService {
     public DebtDTO save(DebtDTO debtDTO) {
         log.debug("Request to save Debt : {}", debtDTO);
         Debt debt = debtMapper.toEntity(debtDTO);
+
         debt = debtRepository.save(debt);
+        User user=debt.getUser();
+        user.setBalance(user.getBalance().subtract(debt.getAmount()));
+        userRepository.save(user);
         return debtMapper.toDto(debt);
     }
 

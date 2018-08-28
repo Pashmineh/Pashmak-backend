@@ -54,6 +54,7 @@ public class DebtResource {
             throw new BadRequestAlertException("A new debt cannot already have an ID", ENTITY_NAME, "idexists");
         }
         DebtDTO result = debtService.save(debtDTO);
+
         return ResponseEntity.created(new URI("/api/debts/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
