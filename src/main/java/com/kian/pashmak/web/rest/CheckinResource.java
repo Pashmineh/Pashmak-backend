@@ -17,7 +17,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import java.time.ZonedDateTime;
+import java.time.ZoneId;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -65,7 +66,7 @@ public class CheckinResource {
     @Timed
     public ResponseEntity<CheckinDTO> checkIn(@RequestParam("checkinType") CheckinType checkinType) throws URISyntaxException {
         CheckinDTO checkinDTO= new CheckinDTO();
-        checkinDTO.setCheckinTime(ZonedDateTime.now());
+        checkinDTO.setCheckinTime(ZonedDateTime.now(ZoneId.systemDefault()));
         checkinDTO.setUserLogin(SecurityUtils.getCurrentUserLogin().get());
         CheckinDTO result = checkinService.save(checkinDTO);
         return ResponseEntity.created(new URI("/api/checkins/" + result.getId()))
