@@ -69,6 +69,7 @@ public class CheckinResource {
         checkinDTO.setCheckinTime(ZonedDateTime.now(ZoneId.systemDefault()));
         checkinDTO.setUserLogin(SecurityUtils.getCurrentUserLogin().get());
         CheckinDTO result = checkinService.save(checkinDTO);
+        result.setCheckinType(checkinType);
         return ResponseEntity.created(new URI("/api/checkins/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);

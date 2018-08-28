@@ -1,5 +1,7 @@
 package com.kian.pashmak.service.dto;
 
+import com.kian.pashmak.web.rest.vm.CheckinType;
+
 import java.time.ZonedDateTime;
 import java.io.Serializable;
 import java.util.Objects;
@@ -17,8 +19,17 @@ public class CheckinDTO implements Serializable {
     private String message;
 
     private Long userId;
-
+    private CheckinType checkinType;
     private String userLogin;
+
+
+    public CheckinType getCheckinType() {
+        return checkinType;
+    }
+
+    public void setCheckinType(CheckinType checkinType) {
+        this.checkinType = checkinType;
+    }
 
     public Long getId() {
         return id;
