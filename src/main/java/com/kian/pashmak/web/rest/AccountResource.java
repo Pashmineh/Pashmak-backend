@@ -122,7 +122,7 @@ public class AccountResource {
     @Timed
     public HomeDTO home(HttpServletRequest request) {
         HomeDTO homeDTO= new HomeDTO();
-        User user = userService.getUserWithAuthoritiesByLogin(SecurityUtils.getCurrentUserLogin().get()).get();
+        User user = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin().get()).get();
         List<Event> events = eventRepository.findAll();
         List<Payment> paymesnts = paymentRepository.findByUserIsCurrentUser();
         System.out.println(user.getBalance());
@@ -130,8 +130,10 @@ public class AccountResource {
         homeDTO.setCycle("  شهریور ۹۷");
         BalanceDTO b = new BalanceDTO();
         b.setBalance(user.getBalance());
-        if(paymesnts.size()>0)
+        if(paymesnts.size()>0){
         b.setTotalPaid(BigDecimal.valueOf(paymesnts.stream().mapToDouble(p->p.getAmount().longValue()).sum()));
+            b.setBalance(b.getBalance().add(b.getTotalPaid()));
+        }
         else
         b.setTotalPaid(new BigDecimal(0));
         homeDTO.setBalance(b);
