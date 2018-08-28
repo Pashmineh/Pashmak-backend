@@ -12,6 +12,7 @@ public class CheckinDTO implements Serializable {
     private Long id;
 
     private ZonedDateTime checkinTime;
+    private Long checkinTimeEpoch;
 
     private String message;
 
@@ -57,6 +58,14 @@ public class CheckinDTO implements Serializable {
 
     public void setUserLogin(String userLogin) {
         this.userLogin = userLogin;
+    }
+
+    public Long getCheckinTimeEpoch() {
+        return checkinTime.toEpochSecond()*1000;
+    }
+
+    public void setCheckinTimeEpoch(Long checkinTimeEpoch) {
+        this.checkinTimeEpoch = checkinTimeEpoch;
     }
 
     @Override

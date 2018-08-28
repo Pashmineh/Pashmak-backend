@@ -7,6 +7,7 @@ import com.kian.pashmak.web.rest.errors.BadRequestAlertException;
 import com.kian.pashmak.web.rest.util.HeaderUtil;
 import com.kian.pashmak.web.rest.util.PaginationUtil;
 import com.kian.pashmak.service.dto.CheckinDTO;
+import com.kian.pashmak.web.rest.vm.CheckinType;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,7 +63,7 @@ public class CheckinResource {
 
     @PostMapping("/checkin")
     @Timed
-    public ResponseEntity<CheckinDTO> checkIn() throws URISyntaxException {
+    public ResponseEntity<CheckinDTO> checkIn(@RequestParam("checkinType") CheckinType checkinType) throws URISyntaxException {
         CheckinDTO checkinDTO= new CheckinDTO();
         checkinDTO.setUserLogin(SecurityUtils.getCurrentUserLogin().get());
         CheckinDTO result = checkinService.save(checkinDTO);
