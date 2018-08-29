@@ -72,13 +72,13 @@ public class UserJWTController {
 
     @PutMapping("/token")
     @Timed
-    public ResponseEntity<HttpStatus> authorize(@RequestParam String token) {
+    public ResponseEntity<User> token(@RequestParam String token) {
 
 
         User user = userService.getUserWithAuthoritiesByLogin(SecurityUtils.getCurrentUserLogin().get()).get();
         user.setPushToken(token);
         userRepository.save(user);
-        return ResponseEntity.ok(HttpStatus.OK);
+        return ResponseEntity.ok(user);
     }
 
     /**
