@@ -2,6 +2,7 @@ package com.kian.pashmak.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.kian.pashmak.domain.enumeration.PaymentType;
+import com.kian.pashmak.repository.UserRepository;
 import com.kian.pashmak.security.SecurityUtils;
 import com.kian.pashmak.service.CheckinService;
 import com.kian.pashmak.service.DebtService;
@@ -46,10 +47,13 @@ public class CheckinResource {
 
     private final CheckinService checkinService;
 
+    private final UserRepository userRepository;
+
     private final DebtService debtService;
 
-    public CheckinResource(CheckinService checkinService, DebtService debtService) {
+    public CheckinResource(CheckinService checkinService, UserRepository userRepository, DebtService debtService) {
         this.checkinService = checkinService;
+        this.userRepository = userRepository;
         this.debtService = debtService;
     }
 
@@ -98,7 +102,8 @@ public class CheckinResource {
             debt.setPaymentTime(current);
             debt.setReason(PaymentType.TAKHIR);
             debt.setUserLogin(SecurityUtils.getCurrentUserLogin().get());
-            debt.setUserId(checkinDTO.getUserId());
+
+            debt.setUserId(userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin().get()).get().getId());
             debtService.save(debt);
         }
 
