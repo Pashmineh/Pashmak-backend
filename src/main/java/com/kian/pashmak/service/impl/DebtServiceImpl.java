@@ -76,7 +76,7 @@ public class DebtServiceImpl implements DebtService {
         notification.setTopic("com.pashmak.app");
         notification.setMutableContent(true);
         Alert alert= new Alert();
-        alert.setBody("بدهی ثبت شد");
+        alert.setBody(" بدهی بابت "+ debt.getReason().getTitle() +"به مبلغ "+ debt.getAmount()+" ثبت شد ");
         alert.setActionLocKey("نمایش");
         notification.setAlert(alert);
         notif.add(notification);

@@ -1,8 +1,11 @@
 package com.kian.pashmak.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.kian.pashmak.domain.enumeration.PaymentType;
 import com.kian.pashmak.security.SecurityUtils;
 import com.kian.pashmak.service.CheckinService;
+import com.kian.pashmak.service.DebtService;
+import com.kian.pashmak.service.dto.DebtDTO;
 import com.kian.pashmak.web.rest.errors.BadRequestAlertException;
 import com.kian.pashmak.web.rest.util.HeaderUtil;
 import com.kian.pashmak.web.rest.util.PaginationUtil;
@@ -17,13 +20,18 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.ZonedDateTime;
-import java.time.ZoneId;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.TimeZone;
 
 /**
  * REST controller for managing Checkin.
@@ -38,8 +46,11 @@ public class CheckinResource {
 
     private final CheckinService checkinService;
 
-    public CheckinResource(CheckinService checkinService) {
+    private final DebtService debtService;
+
+    public CheckinResource(CheckinService checkinService, DebtService debtService) {
         this.checkinService = checkinService;
+        this.debtService = debtService;
     }
 
     /**
@@ -64,12 +75,33 @@ public class CheckinResource {
 
     @PostMapping("/checkin")
     @Timed
-    public ResponseEntity<CheckinDTO> checkIn(@RequestParam("checkinType") CheckinType checkinType) throws URISyntaxException {
+    public ResponseEntity<CheckinDTO> checkIn(@RequestParam("checkinType") CheckinType checkinType) throws URISyntaxException, ParseException {
         CheckinDTO checkinDTO= new CheckinDTO();
-        checkinDTO.setCheckinTime(ZonedDateTime.now(ZoneId.systemDefault()));
+        ZonedDateTime current = ZonedDateTime.now(TimeZone.getTimeZone("Asia/Tehran").toZoneId());
+
+        checkinDTO.setCheckinTime(current);
+
+
+        SimpleDateFormat parser = new SimpleDateFormat("HH:mm");
+        Date ten = parser.parse("10:00");
+        Date userTime;
+        if(current.getMinute()<10)
+         userTime = parser.parse(current.getHour()+":0"+current.getMinute());
+        else
+             userTime = parser.parse(current.getHour()+":"+current.getMinute());
         checkinDTO.setUserLogin(SecurityUtils.getCurrentUserLogin().get());
         CheckinDTO result = checkinService.save(checkinDTO);
         result.setCheckinType(checkinType);
+        if (userTime.after(ten)) {
+            DebtDTO debt= new DebtDTO();
+            debt.setAmount(BigDecimal.valueOf(5000));
+            debt.setPaymentTime(current);
+            debt.setReason(PaymentType.TAKHIR);
+            debt.setUserLogin(SecurityUtils.getCurrentUserLogin().get());
+            debt.setUserId(checkinDTO.getUserId());
+            debtService.save(debt);
+        }
+
         return ResponseEntity.created(new URI("/api/checkins/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
