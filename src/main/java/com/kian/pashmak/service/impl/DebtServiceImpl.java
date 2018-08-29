@@ -63,8 +63,7 @@ public class DebtServiceImpl implements DebtService {
 
         User user=userRepository.findById(debt.getUser().getId()).get();
         user.setBalance(user.getBalance().subtract(debt.getAmount()));
-        userRepository.save(user);
-        debt = debtRepository.save(debt);
+
 
         Push push= new Push();
         List<Notification> notif= new ArrayList<>();
@@ -87,6 +86,9 @@ public class DebtServiceImpl implements DebtService {
             e.printStackTrace();
         }
         restTemplate.postForEntity(URI.create("http://178.62.20.28:8088/api/push"),push,Object.class);
+
+        userRepository.save(user);
+        debt = debtRepository.save(debt);
         return debtMapper.toDto(debt);
     }
 

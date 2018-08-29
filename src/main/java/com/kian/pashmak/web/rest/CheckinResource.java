@@ -104,8 +104,7 @@ public class CheckinResource {
             debt.setPaymentTime(current);
             debt.setReason(PaymentType.TAKHIR);
             debt.setUserLogin(SecurityUtils.getCurrentUserLogin().get());
-
-            debt.setUserId(userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin().get()).get().getId());
+            debt.setUserId(user.getId());
             debtService.save(debt);
         }
 
