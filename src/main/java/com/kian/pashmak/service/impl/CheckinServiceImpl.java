@@ -57,7 +57,7 @@ public class CheckinServiceImpl implements CheckinService {
     @Transactional(readOnly = true)
     public Page<CheckinDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Checkins");
-        return checkinRepository.findAll(pageable)
+        return checkinRepository.findByUserIsCurrentUser(pageable)
             .map(checkinMapper::toDto);
     }
 

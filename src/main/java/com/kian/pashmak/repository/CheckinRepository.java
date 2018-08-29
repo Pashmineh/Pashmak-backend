@@ -1,6 +1,8 @@
 package com.kian.pashmak.repository;
 
 import com.kian.pashmak.domain.Checkin;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +16,6 @@ import java.util.List;
 public interface CheckinRepository extends JpaRepository<Checkin, Long> {
 
     @Query("select checkin from Checkin checkin where checkin.user.login = ?#{principal.username}")
-    List<Checkin> findByUserIsCurrentUser();
+    Page<Checkin> findByUserIsCurrentUser(Pageable pageable);
 
 }

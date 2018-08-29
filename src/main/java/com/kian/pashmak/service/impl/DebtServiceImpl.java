@@ -61,7 +61,7 @@ public class DebtServiceImpl implements DebtService {
         log.debug("Request to save Debt : {}", debtDTO);
         Debt debt = debtMapper.toEntity(debtDTO);
 
-        User user=userRepository.findOneWithAuthoritiesById(debt.getUser().getId()).get();
+        User user=userRepository.findById(debt.getUser().getId()).get();
         user.setBalance(user.getBalance().subtract(debt.getAmount()));
         userRepository.save(user);
         debt = debtRepository.save(debt);
