@@ -1,6 +1,7 @@
 package com.kian.pashmak.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.kian.pashmak.domain.User;
 import com.kian.pashmak.domain.enumeration.PaymentType;
 import com.kian.pashmak.repository.UserRepository;
 import com.kian.pashmak.security.SecurityUtils;
@@ -84,11 +85,12 @@ public class CheckinResource {
         ZonedDateTime current = ZonedDateTime.now(TimeZone.getTimeZone("Asia/Tehran").toZoneId());
 
         checkinDTO.setCheckinTime(current);
-
+        User user=userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin().get()).get();
 
         SimpleDateFormat parser = new SimpleDateFormat("HH:mm");
         Date ten = parser.parse("10:00");
         Date userTime;
+        checkinDTO.setUserId(user.getId());
         if(current.getMinute()<10)
          userTime = parser.parse(current.getHour()+":0"+current.getMinute());
         else
