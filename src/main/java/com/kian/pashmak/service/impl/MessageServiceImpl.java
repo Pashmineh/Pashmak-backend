@@ -14,7 +14,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 /**
  * Service Implementation for managing Message.
  */
@@ -47,18 +50,22 @@ public class MessageServiceImpl implements MessageService {
         return messageMapper.toDto(message);
     }
 
+    @Override
+    public Page<MessageDTO> findAll(Pageable pageable) {
+        return null;
+    }
+
     /**
      * Get all the messages.
      *
-     * @param pageable the pagination information
      * @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
-    public Page<MessageDTO> findAll(Pageable pageable) {
+    public List<MessageDTO> findAll() {
         log.debug("Request to get all Messages");
-        return messageRepository.findAll(pageable)
-            .map(messageMapper::toDto);
+        return messageRepository.findByUserIsCurrentUser().stream()
+            .map(messageMapper::toDto).collect(Collectors.toList());
     }
 
 

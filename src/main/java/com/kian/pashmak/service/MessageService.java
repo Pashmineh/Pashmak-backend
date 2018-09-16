@@ -4,7 +4,9 @@ import com.kian.pashmak.service.dto.MessageDTO;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -28,6 +30,9 @@ public interface MessageService {
      */
     Page<MessageDTO> findAll(Pageable pageable);
 
+
+    @Transactional(readOnly = true)
+    List<MessageDTO> findAll();
 
     /**
      * Get the "id" message.

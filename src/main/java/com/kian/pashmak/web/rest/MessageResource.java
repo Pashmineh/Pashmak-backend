@@ -86,7 +86,7 @@ public class MessageResource {
         notification.setTopic("com.pashmak.app");
         notification.setMutableContent(true);
         Alert alert= new Alert();
-        alert.setBody(messageDTO.getMessage());
+        alert.setBody(messageDTO.getMessage().substring(0,100));
         alert.setActionLocKey("نمایش");
         notification.setAlert(alert);
         notif.add(notification);
@@ -134,9 +134,9 @@ public class MessageResource {
     @Timed
     public ResponseEntity<List<MessageDTO>> getAllMessages(Pageable pageable) {
         log.debug("REST request to get a page of Messages");
-        Page<MessageDTO> page = messageService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/messages");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        List<MessageDTO> page = messageService.findAll();
+//        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/messages");
+        return  ResponseEntity.ok(page);
     }
 
     /**
