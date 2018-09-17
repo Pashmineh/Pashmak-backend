@@ -22,6 +22,14 @@ public class MessageDTO implements Serializable {
 
     private String userLogin;
 
+    private long eventTimeEpoch;
+
+
+    public long getEventTimeEpoch() {
+        return sendTime.toEpochSecond()*1000;
+    }
+
+
     public Long getId() {
         return id;
     }
