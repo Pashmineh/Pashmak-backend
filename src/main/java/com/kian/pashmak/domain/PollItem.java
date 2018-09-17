@@ -23,6 +23,9 @@ public class PollItem implements Serializable {
     @Column(name = "title")
     private String title;
 
+    @ManyToOne
+    private Poll poll;
+
     public Long getId() {
         return id;
     }
