@@ -14,7 +14,6 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "poll")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Poll implements Serializable {
 
     private static final long serialVersionUID = 1L;
