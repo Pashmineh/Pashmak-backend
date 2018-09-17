@@ -1,12 +1,7 @@
 package com.kian.pashmak.domain;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.ZonedDateTime;
-import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -26,7 +21,7 @@ public class Poll implements Serializable {
     @Column(name = "question")
     private String question;
 
-    private Long limit;
+    private Long answerLimit;
 
     @OneToMany
     private Set<PollItem> pollItemSet;
@@ -47,12 +42,12 @@ public class Poll implements Serializable {
         this.question = question;
     }
 
-    public Long getLimit() {
-        return limit;
+    public Long getAnswerLimit() {
+        return answerLimit;
     }
 
-    public void setLimit(Long limit) {
-        this.limit = limit;
+    public void setAnswerLimit(Long answerLimit) {
+        this.answerLimit = answerLimit;
     }
 
     public Set<PollItem> getPollItemSet() {
