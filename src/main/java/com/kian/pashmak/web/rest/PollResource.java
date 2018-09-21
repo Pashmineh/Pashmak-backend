@@ -2,23 +2,14 @@ package com.kian.pashmak.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.kian.pashmak.domain.Poll;
-import com.kian.pashmak.service.EventService;
+import com.kian.pashmak.domain.Vote;
 import com.kian.pashmak.service.PollService;
-import com.kian.pashmak.service.dto.EventDTO;
-import com.kian.pashmak.service.dto.PollDTO;
 import com.kian.pashmak.service.dto.VoteDTO;
-import com.kian.pashmak.web.rest.errors.BadRequestAlertException;
-import com.kian.pashmak.web.rest.util.HeaderUtil;
-import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * REST controller for managing Event.
@@ -54,7 +45,13 @@ public class PollResource {
 
     @PostMapping("/polls/vote")
     @Timed
-    public VoteDTO vote(@RequestBody VoteDTO voteDTO) {
+    public Vote vote(@RequestBody VoteDTO voteDTO) {
+        return pollService.vote(voteDTO);
+    }
+
+    @DeleteMapping("/polls/vote")
+    @Timed
+    public Vote deleteVote(@RequestBody VoteDTO voteDTO) {
         return pollService.vote(voteDTO);
     }
 

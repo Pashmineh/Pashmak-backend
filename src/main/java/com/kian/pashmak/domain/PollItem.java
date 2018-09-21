@@ -1,8 +1,5 @@
 package com.kian.pashmak.domain;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -23,8 +20,48 @@ public class PollItem implements Serializable {
     @Column(name = "title")
     private String title;
 
+    private String imgsrc;
+
     @ManyToOne
     private Poll poll;
+
+    private Long number;
+
+
+    @Transient
+    private Boolean voted;
+
+    public String getImgsrc() {
+        return imgsrc;
+    }
+
+    public void setImgsrc(String imgsrc) {
+        this.imgsrc = imgsrc;
+    }
+
+    public Poll getPoll() {
+        return poll;
+    }
+
+    public void setPoll(Poll poll) {
+        this.poll = poll;
+    }
+
+    public Long getNumber() {
+        return number;
+    }
+
+    public void setNumber(Long number) {
+        this.number = number;
+    }
+
+    public Boolean getVoted() {
+        return voted;
+    }
+
+    public void setVoted(Boolean voted) {
+        this.voted = voted;
+    }
 
     public Long getId() {
         return id;

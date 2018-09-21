@@ -21,10 +21,41 @@ public class Poll implements Serializable {
     @Column(name = "question")
     private String question;
 
+
+    private Boolean anonymous;
+
+    private String imgsrc;
+
     private Long answerLimit;
+
+    private Long totalVote=0l;
 
     @OneToMany
     private Set<PollItem> pollItemSet;
+
+    public Boolean getAnonymous() {
+        return anonymous;
+    }
+
+    public void setAnonymous(Boolean anonymous) {
+        this.anonymous = anonymous;
+    }
+
+    public String getImgsrc() {
+        return imgsrc;
+    }
+
+    public void setImgsrc(String imgsrc) {
+        this.imgsrc = imgsrc;
+    }
+
+    public Long getTotalVote() {
+        return totalVote;
+    }
+
+    public void setTotalVote(Long totalVote) {
+        this.totalVote = totalVote;
+    }
 
     public Long getId() {
         return id;

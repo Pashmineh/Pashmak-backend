@@ -1,7 +1,7 @@
 package com.kian.pashmak.service;
 
 import com.kian.pashmak.domain.Poll;
-import com.kian.pashmak.service.dto.EventDTO;
+import com.kian.pashmak.domain.Vote;
 import com.kian.pashmak.service.dto.VoteDTO;
 
 import java.util.List;
@@ -43,5 +43,7 @@ public interface PollService {
      */
     void delete(Long id);
 
-    VoteDTO vote(VoteDTO voteDTO);
+    Vote vote(VoteDTO voteDTO);
+
+    Vote deleteVote(VoteDTO voteDTO);
 }
