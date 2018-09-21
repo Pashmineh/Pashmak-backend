@@ -25,7 +25,7 @@ public class PollItem implements Serializable {
     @ManyToOne
     private Poll poll;
 
-    private Long number;
+    private Long number=0l;
 
 
     @Transient
