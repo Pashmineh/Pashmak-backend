@@ -11,6 +11,8 @@ import com.kian.pashmak.repository.VoteRepository;
 import com.kian.pashmak.security.SecurityUtils;
 import com.kian.pashmak.service.PollService;
 import com.kian.pashmak.service.UserService;
+import com.kian.pashmak.service.dto.PollDTO;
+import com.kian.pashmak.service.dto.PollItemDTO;
 import com.kian.pashmak.service.dto.VoteDTO;
 import com.kian.pashmak.service.dto.push.Notification;
 import com.kian.pashmak.service.dto.push.Push;
@@ -59,17 +61,33 @@ public class PollServiceImpl implements PollService {
     }
 
     @Override
-    public List<Poll> findAll() {
-        List<Poll> polls=pollRepository.findAll();
+    public List<PollDTO> findAll() {
+        List<Poll> polls= pollRepository.findAll();
+        List<PollDTO> pollDTOS= new ArrayList<>();
         for (Poll poll : polls) {
+            PollDTO pollDTO= new PollDTO();
+            pollDTO.setId(poll.getId());
+            pollDTO.setAnonymous(poll.getAnonymous());
+            pollDTO.setAnswerLimit(poll.getAnswerLimit());
+            pollDTO.setImgsrc(poll.getImgsrc());
+            pollDTO.setQuestion(poll.getQuestion());
+            pollDTO.setTotalVote(poll.getTotalVote());
+            List<PollItemDTO> pollItemDTOS= new ArrayList<>();
             for (PollItem pollItem : poll.getPollItemSet()) {
-
+                PollItemDTO itemDTO= new PollItemDTO();
+                itemDTO.setId(pollItem.getId());
+                itemDTO.setImgsrc(pollItem.getImgsrc());
+                itemDTO.setNumber(pollItem.getNumber());
+                itemDTO.setTitle(pollItem.getTitle());
                 Vote v = voteRepository.findByUser_LoginAndPoll_IdAndPollItem_Id(SecurityUtils.getCurrentUserLogin().get(), poll.getId(), pollItem.getId());
-                pollItem.setVoted(v != null);
+                itemDTO.setVoted(v != null);
+                pollItemDTOS.add(itemDTO);
             }
+            pollDTO.setItemDTOS(pollItemDTOS);
+            pollDTOS.add(pollDTO);
         }
 
-        return polls;
+        return pollDTOS;
     }
 
     @Override

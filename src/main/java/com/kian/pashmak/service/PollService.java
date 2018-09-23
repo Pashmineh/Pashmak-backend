@@ -2,6 +2,7 @@ package com.kian.pashmak.service;
 
 import com.kian.pashmak.domain.Poll;
 import com.kian.pashmak.domain.Vote;
+import com.kian.pashmak.service.dto.PollDTO;
 import com.kian.pashmak.service.dto.VoteDTO;
 
 import java.util.List;
@@ -25,7 +26,7 @@ public interface PollService {
      *
      * @return the list of entities
      */
-    List<Poll> findAll();
+    List<PollDTO> findAll();
 
 
     /**

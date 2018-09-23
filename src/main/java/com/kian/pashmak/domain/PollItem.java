@@ -28,8 +28,6 @@ public class PollItem implements Serializable {
     private Long number=0l;
 
 
-    @Transient
-    private Boolean voted;
 
     public String getImgsrc() {
         return imgsrc;
@@ -55,13 +53,6 @@ public class PollItem implements Serializable {
         this.number = number;
     }
 
-    public Boolean getVoted() {
-        return voted;
-    }
-
-    public void setVoted(Boolean voted) {
-        this.voted = voted;
-    }
 
     public Long getId() {
         return id;
