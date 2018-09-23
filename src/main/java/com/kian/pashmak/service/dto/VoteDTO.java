@@ -25,4 +25,12 @@ public class VoteDTO implements Serializable {
     public void setItem(Long item) {
         this.item = item;
     }
+
+    @Override
+    public String toString() {
+        return "VoteDTO{" +
+            "poll=" + poll +
+            ", item=" + item +
+            '}';
+    }
 }
