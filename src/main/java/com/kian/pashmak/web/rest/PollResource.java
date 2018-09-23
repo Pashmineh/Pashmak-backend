@@ -53,7 +53,7 @@ public class PollResource {
     @DeleteMapping("/polls/vote")
     @Timed
     public List<PollDTO> deleteVote(@RequestBody VoteDTO voteDTO) {
-         pollService.vote(voteDTO);
+         pollService.deleteVote(voteDTO);
          return getAllPolls();
     }
 
