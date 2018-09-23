@@ -158,7 +158,7 @@ public class PollServiceImpl implements PollService {
         PollItem item = vote.getPollItem();
         item.setNumber(item.getNumber()-1);
         pollItemRepository.save(item);
-        voteRepository.save(vote);
+//        voteRepository.save(vote);
         Poll poll = vote.getPoll();
         poll.setTotalVote(poll.getTotalVote()-1);
         pollRepository.save(poll);
