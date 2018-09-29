@@ -32,7 +32,7 @@ spring:
         serialization.indent_output: true
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:postgresql://178.128.195.55:5432/pashmak
+        url: jdbc:postgresql://pashmak.kian.digital:5432/pashmak
         username: postgres
         password: pashm.ack
     jpa:
